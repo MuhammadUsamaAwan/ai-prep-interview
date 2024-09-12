@@ -7,25 +7,29 @@ const schema = defineSchema({
   interviews: defineTable({
     jobTitle: v.string(),
     jobDescription: v.string(),
-    companyName: v.optional(v.string()),
     jobExperience: v.number(),
-    createdBy: v.id('users'),
-    startedAt: v.number(),
-    currentQuestionIndex: v.number(),
-    retryCount: v.number(),
-  }),
+    userId: v.id('users'),
+    attemptCount: v.number(),
+  }).index('by_user', ['userId']),
   questions: defineTable({
     interviewId: v.id('interviews'),
     content: v.string(),
     answer: v.string(),
   }),
+  interviewAttempts: defineTable({
+    interviewId: v.id('interviews'),
+    userId: v.id('users'),
+    startedAt: v.number(),
+    endedAt: v.optional(v.number()),
+    currentQuestionIndex: v.number(),
+  }),
   answers: defineTable({
     questionId: v.id('questions'),
+    interviewAttemptId: v.id('interviewAttempts'),
     userId: v.id('users'),
     content: v.string(),
     feedback: v.optional(v.string()),
     rating: v.optional(v.number()),
-    attempt: v.number(),
   }),
 });
 
