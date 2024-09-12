@@ -15,7 +15,7 @@ export function Hero() {
       <div className='relative z-10'>
         <div className='container'>
           <div className='mx-auto max-w-2xl text-center'>
-            <div className='mt-5 max-w-2xl'>
+            <div className='mx-auto mt-5 max-w-xl'>
               <h1 className='scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl'>
                 Elevate Your Interview Skills using AI
               </h1>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { convexAuthNextjsToken } from '@convex-dev/auth/nextjs/server';
 import { fetchQuery } from 'convex/nextjs';
-import { MedalIcon, PlusIcon, SearchIcon, UserIcon } from 'lucide-react';
+import { LayoutDashboardIcon } from 'lucide-react';
 
 import { siteConfig } from '~/config/site';
 import { api } from '~/convex/_generated/api';
@@ -46,27 +46,9 @@ export async function SiteHeader() {
               <DropdownMenuLabel className='line-clamp-1'>{currentUser.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem className='p-0'>
-                <Link href={`/profiles/${currentUser._id}`} className='flex w-full items-center px-2 py-1.5'>
-                  <UserIcon className='mr-2 size-4' />
-                  Profile
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className='p-0'>
-                <Link href='/create-quiz' className='flex w-full items-center px-2 py-1.5'>
-                  <PlusIcon className='mr-2 size-4' />
-                  Create a Quiz
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className='p-0'>
-                <Link href='/search-quizzes' className='flex w-full items-center px-2 py-1.5'>
-                  <SearchIcon className='mr-2 size-4' />
-                  Search Quizzes
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className='p-0'>
-                <Link href='/leaderboards' className='flex w-full items-center px-2 py-1.5'>
-                  <MedalIcon className='mr-2 size-4' />
-                  Leaderboards
+                <Link href='/dashboard' className='flex w-full items-center px-2 py-1.5'>
+                  <LayoutDashboardIcon className='mr-2 size-4' />
+                  Dashboard
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className='p-0'>

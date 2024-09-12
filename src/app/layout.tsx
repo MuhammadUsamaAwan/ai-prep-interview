@@ -14,7 +14,7 @@ import { ThemeProvider } from '~/components/providers/theme-provider';
 import '~/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} - Mock Interviews`,
+  title: `${siteConfig.name} - AI Mock Interviews`,
   description: siteConfig.description,
   icons: ['/favicon.svg'],
 };

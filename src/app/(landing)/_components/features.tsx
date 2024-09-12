@@ -5,7 +5,7 @@ const features: Feature[] = [
   {
     title: 'Personalized Interview Questions',
     description: 'Generate tailored questions based on job title and description',
-    icon: 'userCheck',
+    icon: 'user',
   },
   {
     title: 'Real-Time Video and Audio Recording',

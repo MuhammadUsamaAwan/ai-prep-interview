@@ -5,7 +5,7 @@ import {
   Loader2Icon,
   PackageIcon,
   StarIcon,
-  UserCheckIcon,
+  UserIcon,
   VideoIcon,
   type LucideProps,
 } from 'lucide-react';
@@ -41,7 +41,7 @@ export const Icons = {
       ></path>
     </svg>
   ),
-  userCheck: UserCheckIcon,
+  user: UserIcon,
   video: VideoIcon,
   star: StarIcon,
   fileText: FileTextIcon,
