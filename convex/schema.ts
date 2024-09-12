@@ -19,7 +19,7 @@ const schema = defineSchema({
   interviewAttempts: defineTable({
     interviewId: v.id('interviews'),
     userId: v.id('users'),
-    startedAt: v.number(),
+    startedAt: v.optional(v.number()),
     endedAt: v.optional(v.number()),
     currentQuestionIndex: v.number(),
   }),

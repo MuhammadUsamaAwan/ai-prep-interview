@@ -43,3 +43,19 @@ export const saveQuestions = internalMutation({
     await Promise.all(questionsPromises);
   },
 });
+
+export const createInterviewAttempt = mutation({
+  args: {
+    interviewId: v.id('interviews'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError('User not authenticated');
+    const interviewAttempt = await ctx.db.insert('interviewAttempts', {
+      interviewId: args.interviewId,
+      userId,
+      currentQuestionIndex: 0,
+    });
+    return interviewAttempt;
+  },
+});
