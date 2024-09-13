@@ -10,11 +10,11 @@ export function SignInOptions() {
 
   return (
     <>
-      <Button variant='outline' className='w-full' onClick={() => signIn('google')}>
+      <Button variant='outline' className='w-full' onClick={() => signIn('google', { redirectTo: '/dashboard' })}>
         <Icons.google className='mr-2 size-5' />
         Sign In with Google
       </Button>
-      <Button variant='outline' className='w-full' onClick={() => signIn('github')}>
+      <Button variant='outline' className='w-full' onClick={() => signIn('github', { redirectTo: '/dashboard' })}>
         <Icons.github className='mr-2 size-5' />
         Sign In with Github
       </Button>

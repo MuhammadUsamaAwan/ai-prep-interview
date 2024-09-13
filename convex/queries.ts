@@ -1,6 +1,7 @@
 import { getAuthUserId } from '@convex-dev/auth/server';
-import { ConvexError } from 'convex/values';
+import { ConvexError, v } from 'convex/values';
 
+import { type Id } from './_generated/dataModel';
 import { query } from './_generated/server';
 
 export const currentUser = query({
@@ -17,8 +18,39 @@ export const interviews = query({
     if (!userId) throw new ConvexError('User not authenticated');
     const interviews = await ctx.db
       .query('interviews')
-      .filter(q => q.eq(q.field('userId'), userId))
+      .withIndex('by_user', q => q.eq('userId', userId))
       .collect();
     return interviews;
+  },
+});
+
+export const interviewAttempt = query({
+  args: { id: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError('User not authenticated');
+    const attempt = await ctx.db
+      .query('interviewAttempts')
+      .withIndex('by_id', q => q.eq('_id', args.id as Id<'interviewAttempts'>))
+      .filter(q => q.eq(q.field('userId'), userId))
+      .first();
+    if (!attempt) throw new ConvexError('Attempt not found');
+    const interview = await ctx.db
+      .query('interviews')
+      .withIndex('by_id', q => q.eq('_id', attempt?.interviewId))
+      .first();
+    return { interview, attempt };
+  },
+});
+
+export const questionsByInterview = query({
+  args: { interviewId: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    if (!args.interviewId) return [];
+    const questions = await ctx.db
+      .query('questions')
+      .withIndex('by_interview', q => q.eq('interviewId', args.interviewId as Id<'interviews'>))
+      .collect();
+    return questions;
   },
 });

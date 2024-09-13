@@ -2,6 +2,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { ConvexError, v } from 'convex/values';
 
 import { internal } from './_generated/api';
+import { type Id } from './_generated/dataModel';
 import { internalMutation, mutation } from './_generated/server';
 
 export const createInterview = mutation({
@@ -51,11 +52,49 @@ export const createInterviewAttempt = mutation({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) throw new ConvexError('User not authenticated');
+    const interview = await ctx.db
+      .query('interviews')
+      .withIndex('by_id', q => q.eq('_id', args.interviewId))
+      .first();
+    if (!interview) throw new ConvexError('Interview not found');
     const interviewAttempt = await ctx.db.insert('interviewAttempts', {
       interviewId: args.interviewId,
       userId,
-      currentQuestionIndex: 0,
+      currentQuestionIndex: -1,
     });
+    await ctx.db.patch(args.interviewId, { attemptCount: interview.attemptCount + 1 });
     return interviewAttempt;
+  },
+});
+
+export const deleteInterview = mutation({
+  args: { id: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError('User not authenticated');
+    const interview = await ctx.db
+      .query('interviews')
+      .withIndex('by_id', q => q.eq('_id', args.id as Id<'interviews'>))
+      .first();
+    if (!interview) throw new ConvexError('Interview not found');
+    const [attempts, questions, answers] = await Promise.all([
+      ctx.db
+        .query('interviewAttempts')
+        .withIndex('by_interview', q => q.eq('interviewId', args.id as Id<'interviews'>))
+        .collect(),
+      ctx.db
+        .query('questions')
+        .withIndex('by_interview', q => q.eq('interviewId', args.id as Id<'interviews'>))
+        .collect(),
+      ctx.db
+        .query('answers')
+        .withIndex('by_interview', q => q.eq('interviewId', args.id as Id<'interviews'>))
+        .collect(),
+    ]);
+    const attemptIds = attempts.map(a => a._id);
+    const questionIds = questions.map(q => q._id);
+    const answerIds = answers.map(a => a._id);
+    const deletePromises = [interview._id, ...attemptIds, ...questionIds, ...answerIds].map(id => ctx.db.delete(id));
+    await Promise.all(deletePromises);
   },
 });

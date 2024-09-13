@@ -4,4 +4,9 @@ import { convexAuth } from '@convex-dev/auth/server';
 
 export const { auth, signIn, signOut, store } = convexAuth({
   providers: [GitHub, Google],
+  callbacks: {
+    async redirect({ redirectTo }) {
+      return `${process.env.SITE_URL}${redirectTo}`;
+    },
+  },
 });
