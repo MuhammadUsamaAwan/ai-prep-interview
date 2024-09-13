@@ -29,8 +29,8 @@ const schema = defineSchema({
     interviewAttemptId: v.id('interviewAttempts'),
     userId: v.id('users'),
     content: v.string(),
-    feedback: v.optional(v.string()),
-    rating: v.optional(v.number()),
+    feedback: v.string(),
+    rating: v.number(),
   }).index('by_interview', ['interviewId']),
 });
 

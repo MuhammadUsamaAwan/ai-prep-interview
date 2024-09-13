@@ -114,3 +114,59 @@ export const startInterview = mutation({
     await ctx.db.patch(attempt._id, { startedAt: Date.now() });
   },
 });
+
+export const submitAnswer = mutation({
+  args: {
+    interviewId: v.id('interviews'),
+    questionId: v.id('questions'),
+    interviewAttemptId: v.id('interviewAttempts'),
+    content: v.string(),
+    isLastQuestion: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError('User not authenticated');
+    const question = await ctx.db.get(args.questionId as Id<'questions'>);
+    if (!question) throw new ConvexError('Question not found');
+    await ctx.scheduler.runAfter(0, internal.actions.generateFeedback, {
+      interviewId: args.interviewId,
+      questionId: args.questionId,
+      interviewAttemptId: args.interviewAttemptId,
+      content: args.content,
+      userId,
+      question: question.content,
+      isLastQuestion: args.isLastQuestion,
+    });
+  },
+});
+
+export const saveAnswer = internalMutation({
+  args: {
+    interviewId: v.id('interviews'),
+    questionId: v.id('questions'),
+    interviewAttemptId: v.id('interviewAttempts'),
+    content: v.string(),
+    userId: v.id('users'),
+    isLastQuestion: v.boolean(),
+    feedback: v.string(),
+    rating: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const interviewAttempt = await ctx.db.get(args.interviewAttemptId);
+    if (!interviewAttempt) throw new ConvexError('Interview attempt not found');
+    await ctx.db.insert('answers', {
+      interviewId: args.interviewId,
+      questionId: args.questionId,
+      interviewAttemptId: args.interviewAttemptId,
+      content: args.content,
+      userId: args.userId,
+      feedback: args.feedback,
+      rating: args.rating,
+    });
+    if (args.isLastQuestion) {
+      await ctx.db.patch(args.interviewAttemptId, { endedAt: Date.now() });
+    } else {
+      await ctx.db.patch(args.interviewAttemptId, { currentQuestionIndex: interviewAttempt?.currentQuestionIndex + 1 });
+    }
+  },
+});

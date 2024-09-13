@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useMemo, useState, useTransition } from 'react';
+import Link from 'next/link';
 import { useMutation, useQuery } from 'convex/react';
 import { Volume2Icon } from 'lucide-react';
 import Webcam from 'react-webcam';
 
 import { api } from '~/convex/_generated/api';
 import { showErrorMessage } from '~/lib/utils';
-import { Button } from '~/components/ui/button';
+import { Button, buttonVariants } from '~/components/ui/button';
 import { Label } from '~/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { Textarea } from '~/components/ui/textarea';
@@ -31,6 +32,7 @@ export function Interview({ attemptId }: InterviewProps) {
     interviewId: attempt?.interviewId,
   });
   const startInterview = useMutation(api.mutations.startInterview);
+  const submitAnswer = useMutation(api.mutations.submitAnswer);
 
   const recognition = useMemo(() => {
     if (typeof window === 'undefined') return null;
@@ -38,7 +40,7 @@ export function Interview({ attemptId }: InterviewProps) {
   }, []);
 
   const synth = typeof window === 'undefined' ? null : window.speechSynthesis;
-  const currentQuestion = attempt ? questions?.[attempt.currentQuestionIndex] : null;
+  let currentQuestion = attempt ? questions?.[attempt.currentQuestionIndex] : null;
 
   useEffect(() => {
     if (!synth) return;
@@ -134,6 +136,21 @@ export function Interview({ attemptId }: InterviewProps) {
     );
   }
 
+  if (attempt.endedAt) {
+    return (
+      <div className='mt-20 space-y-4'>
+        <p className='text-center text-muted-foreground'>
+          Interview has ended. Check your feeback by clicking on the button below.
+        </p>
+        <div className='flex justify-center'>
+          <Link href={`/interviews/${attempt._id}`} className={buttonVariants()}>
+            Check Feedback
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='flex flex-col items-start gap-6 sm:flex-row'>
       <div className='w-full flex-1'>
@@ -188,7 +205,33 @@ export function Interview({ attemptId }: InterviewProps) {
           </div>
         </div>
         <div className='mt-4 flex justify-center'>
-          <Button disabled={response === ''}>Submit Response</Button>
+          <Button
+            disabled={response === ''}
+            isLoading={isPending}
+            onClick={async () => {
+              startTransition(async () => {
+                try {
+                  if (!attempt || !interview || !currentQuestion) return;
+                  const isLastQuestion = questions.at(-1)?._id === currentQuestion._id;
+                  await submitAnswer({
+                    interviewId: interview._id,
+                    questionId: currentQuestion._id,
+                    interviewAttemptId: attempt._id,
+                    content: response,
+                    isLastQuestion,
+                  });
+                  setResponse('');
+                  if (!isLastQuestion) {
+                    currentQuestion = questions[attempt.currentQuestionIndex + 1];
+                  }
+                } catch (error) {
+                  showErrorMessage(error);
+                }
+              });
+            }}
+          >
+            Submit Response
+          </Button>
         </div>
       </div>
     </div>
