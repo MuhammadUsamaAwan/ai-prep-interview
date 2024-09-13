@@ -9,7 +9,7 @@ import { Trash2Icon } from 'lucide-react';
 import { api } from '~/convex/_generated/api';
 import { showErrorMessage } from '~/lib/utils';
 import { Button, buttonVariants } from '~/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader } from '~/components/ui/card';
 import { Spinner } from '~/components/spinner';
 
 import { DeleteInterviewConfirm } from './delete-interview-confirm';
@@ -36,16 +36,16 @@ export function Interviews() {
       {interviews.map(i => (
         <Card key={i._id} className='group'>
           <CardHeader>
-            <CardTitle className='flex items-center justify-between'>
+            <div className='flex items-center justify-between font-semibold'>
               <h2 className='line-clamp-1'>{i.jobTitle}</h2>
               <button className='shrink-0 opacity-0 group-hover:opacity-100' onClick={() => setDeleteId(i._id)}>
                 <Trash2Icon className='size-4 text-red-500' />
               </button>
-            </CardTitle>
-            <CardDescription className='flex items-center justify-between'>
-              <div>{i.jobExperience} years of experience</div>
-              <div>{i.attemptCount} attempts made</div>
-            </CardDescription>
+            </div>
+            <div className='flex items-center justify-between text-sm text-muted-foreground'>
+              <p>{i.jobExperience} years of experience</p>
+              <p>{i.attemptCount} attempts made</p>
+            </div>
           </CardHeader>
           <CardContent>
             <div className='line-clamp-3'>{i.jobDescription}</div>

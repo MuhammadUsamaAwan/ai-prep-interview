@@ -41,10 +41,15 @@ export function Interview({ id }: InterviewProps) {
   let currentQuestion = attempt ? questions?.[attempt.currentQuestionIndex] : null;
 
   useEffect(() => {
-    if (!synth) return;
-    setVoices([...synth.getVoices()]);
-    setSelectedVoice(synth.getVoices()[0]?.name);
-  }, [synth]);
+    function getVoices() {
+      if (!synth) return;
+      setVoices([...synth.getVoices()]);
+      setSelectedVoice(synth.getVoices()[0]?.name);
+    }
+    if (synth?.onvoiceschanged !== undefined) {
+      synth.onvoiceschanged = getVoices;
+    }
+  }, [synth, synth?.onvoiceschanged]);
 
   useEffect(() => {
     if (!recognition) return;
