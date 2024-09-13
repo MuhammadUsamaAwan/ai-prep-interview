@@ -139,9 +139,9 @@ export function Interview({ attemptId }: InterviewProps) {
   if (attempt.endedAt) {
     return (
       <div className='mt-20 space-y-4'>
-        <p className='text-center text-muted-foreground'>
+        <div className='text-center text-muted-foreground'>
           Interview has ended. Check your feeback by clicking on the button below.
-        </p>
+        </div>
         <div className='flex justify-center'>
           <Link href={`/interviews/${attempt._id}`} className={buttonVariants()}>
             Check Feedback

@@ -64,3 +64,17 @@ export const questionsByInterview = query({
     return questions;
   },
 });
+
+export const interviewAttemptsByInterview = query({
+  args: { interviewId: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError('User not authenticated');
+    const attempts = await ctx.db
+      .query('interviewAttempts')
+      .withIndex('by_interview', q => q.eq('interviewId', args.interviewId as Id<'interviews'>))
+      .filter(q => q.eq(q.field('userId'), userId))
+      .collect();
+    return attempts;
+  },
+});

@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from 'convex/react';
 import { Trash2Icon } from 'lucide-react';
 
 import { api } from '~/convex/_generated/api';
 import { showErrorMessage } from '~/lib/utils';
-import { Button } from '~/components/ui/button';
+import { Button, buttonVariants } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
 import { Spinner } from '~/components/spinner';
 
@@ -50,7 +51,9 @@ export function Interviews() {
             <div className='line-clamp-3'>{i.jobDescription}</div>
           </CardContent>
           <CardFooter className='gap-2'>
-            <Button variant='outline'>View Attempts ({i.attemptCount})</Button>
+            <Link className={buttonVariants({ variant: 'outline' })} href={`/interviews/${i._id}`}>
+              View Attempts ({i.attemptCount})
+            </Link>
             <Button
               variant='outline'
               isLoading={isPending}
