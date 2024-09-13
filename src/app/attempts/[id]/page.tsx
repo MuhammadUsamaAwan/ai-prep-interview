@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { isAuthenticatedNextjs } from '@convex-dev/auth/nextjs/server';
 
-import { Interview } from './_components/interview';
+import { Attempt } from './_components/attempt';
 
 type AttemptPageProps = {
   params: {
@@ -18,7 +18,7 @@ export default function AttemptPage({ params: { id } }: AttemptPageProps) {
 
   return (
     <div className='container pb-10 pt-20'>
-      <Interview attemptId={id} />
+      <Attempt id={id} />
     </div>
   );
 }

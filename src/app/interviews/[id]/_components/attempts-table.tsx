@@ -67,10 +67,10 @@ export function AttemptsTable({ interviewId }: AttemptsTableProps) {
             <TableRow key={a._id}>
               <TableCell className='text-center'>{i + 1}</TableCell>
               <TableCell className='text-center'>
-                {a.startedAt ? format(new Date(a.startedAt), 'MMM dd yyyy, HH:mm aa') : ''}
+                {a.startedAt ? format(new Date(a.startedAt), 'MMM dd yyyy, HH:mm aa') : '-'}
               </TableCell>
               <TableCell className='text-center'>
-                {a.endedAt ? format(new Date(a.endedAt), 'MMM dd yyyy, HH:mm aa') : ''}
+                {a.endedAt ? format(new Date(a.endedAt), 'MMM dd yyyy, HH:mm aa') : '-'}
               </TableCell>
               <TableCell className='text-center'>
                 <Link className='underline underline-offset-2' href={`/attempts/${a._id}`}>

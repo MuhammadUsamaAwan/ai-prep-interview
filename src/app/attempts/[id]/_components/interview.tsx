@@ -1,24 +1,23 @@
 'use client';
 
 import { useEffect, useMemo, useState, useTransition } from 'react';
-import Link from 'next/link';
 import { useMutation, useQuery } from 'convex/react';
 import { Volume2Icon } from 'lucide-react';
 import Webcam from 'react-webcam';
 
 import { api } from '~/convex/_generated/api';
 import { showErrorMessage } from '~/lib/utils';
-import { Button, buttonVariants } from '~/components/ui/button';
+import { Button } from '~/components/ui/button';
 import { Label } from '~/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { Textarea } from '~/components/ui/textarea';
 import { Spinner } from '~/components/spinner';
 
 type InterviewProps = {
-  attemptId: string;
+  id: string;
 };
 
-export function Interview({ attemptId }: InterviewProps) {
+export function Interview({ id }: InterviewProps) {
   const [isPending, startTransition] = useTransition();
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<string>();
@@ -26,12 +25,11 @@ export function Interview({ attemptId }: InterviewProps) {
   const [mediaLoaded, setMediaLoaded] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
 
-  const attempt = useQuery(api.queries.interviewAttempt, { id: attemptId });
+  const attempt = useQuery(api.queries.interviewAttempt, { id });
   const interview = useQuery(api.queries.interview, { id: attempt?.interviewId });
   const questions = useQuery(api.queries.questionsByInterview, {
     interviewId: attempt?.interviewId,
   });
-  const startInterview = useMutation(api.mutations.startInterview);
   const submitAnswer = useMutation(api.mutations.submitAnswer);
 
   const recognition = useMemo(() => {
@@ -89,66 +87,6 @@ export function Interview({ attemptId }: InterviewProps) {
 
   if (!attempt || !questions) {
     return <Spinner />;
-  }
-
-  if (!attempt?.startedAt) {
-    return (
-      <div>
-        <h1 className='mb-4 text-2xl font-bold'>Get Ready for Your Interview</h1>
-        <div className='flex flex-col items-start gap-6 sm:flex-row'>
-          <div className='relative h-56 w-full flex-1 sm:h-96'>
-            <Webcam className='size-full rounded-xl border' onUserMediaError={() => setMediaLoaded(false)} audio />
-            {!mediaLoaded && (
-              <span className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-lg font-semibold'>
-                Camera Failed
-              </span>
-            )}
-            <div className='mt-4 flex justify-center'>
-              <Button
-                isLoading={isPending}
-                onClick={async () => {
-                  startTransition(async () => {
-                    try {
-                      await startInterview({ attemptId: attempt._id });
-                    } catch (error) {
-                      showErrorMessage(error);
-                    }
-                  });
-                }}
-              >
-                Start Interview
-              </Button>
-            </div>
-          </div>
-          <div className='flex-1 space-y-3 rounded-xl border p-4 shadow'>
-            <div>
-              <span className='font-semibold'>Job Title:</span> {interview?.jobTitle}
-            </div>
-            <div>
-              <span className='font-semibold'>Job Experience:</span> {interview?.jobExperience} years
-            </div>
-            <div>
-              <span className='font-semibold'>Job Description:</span> {interview?.jobDescription}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (attempt.endedAt) {
-    return (
-      <div className='mt-20 space-y-4'>
-        <div className='text-center text-muted-foreground'>
-          Interview has ended. Check your feeback by clicking on the button below.
-        </div>
-        <div className='flex justify-center'>
-          <Link href={`/interviews/${attempt._id}`} className={buttonVariants()}>
-            Check Feedback
-          </Link>
-        </div>
-      </div>
-    );
   }
 
   return (
