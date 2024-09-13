@@ -3,10 +3,10 @@ import {
   HandshakeIcon,
   LayoutDashboardIcon,
   Loader2Icon,
+  MicIcon,
   PackageIcon,
   StarIcon,
   UserIcon,
-  VideoIcon,
   type LucideProps,
 } from 'lucide-react';
 
@@ -42,7 +42,7 @@ export const Icons = {
     </svg>
   ),
   user: UserIcon,
-  video: VideoIcon,
+  mic: MicIcon,
   star: StarIcon,
   fileText: FileTextIcon,
   package: PackageIcon,

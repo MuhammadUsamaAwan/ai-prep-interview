@@ -4,13 +4,13 @@ import { Icons } from '~/components/icons';
 const features: Feature[] = [
   {
     title: 'Personalized Interview Questions',
-    description: 'Generate tailored questions based on job title and description',
+    description: 'Get tailored questions based on job title and description',
     icon: 'user',
   },
   {
-    title: 'Real-Time Video and Audio Recording',
-    description: 'Record and review your responses using video and microphone.',
-    icon: 'video',
+    title: 'Real-Time Audio Recording',
+    description: 'Record and review your responses using microphone.',
+    icon: 'mic',
   },
   {
     title: 'Feedback and Ratings',
@@ -18,13 +18,13 @@ const features: Feature[] = [
     icon: 'star',
   },
   {
-    title: 'Detailed Answer Suggestions',
-    description: 'Get suggestions and model answers for each question.',
+    title: 'Detailed Model Answer Suggestions',
+    description: 'Get model answers suggestions for each question.',
     icon: 'fileText',
   },
   {
     title: 'Interactive Simulation Environment',
-    description: 'Engage in a chat-like simulation that mimics a real interview setting.',
+    description: 'Engage in a simulation that mimics a real interview setting.',
     icon: 'package',
   },
   {

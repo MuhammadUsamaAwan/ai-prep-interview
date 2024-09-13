@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from 'convex/react';
+import { format } from 'date-fns';
 import { Trash2Icon } from 'lucide-react';
 
 import { api } from '~/convex/_generated/api';
@@ -43,8 +44,8 @@ export function Interviews() {
               </button>
             </div>
             <div className='flex items-center justify-between text-sm text-muted-foreground'>
-              <p>{i.jobExperience} years of experience</p>
-              <p>{i.attemptCount} attempts made</p>
+              <div>{i.jobExperience} years of experience</div>
+              <div>{format(new Date(i._creationTime), 'MMM dd yyyy, HH:mm aa')}</div>
             </div>
           </CardHeader>
           <CardContent>

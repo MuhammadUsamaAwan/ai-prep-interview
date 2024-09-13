@@ -91,7 +91,7 @@ export function CreateInterview() {
                 <FormItem>
                   <FormLabel>Job Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder='Job Description' {...field} />
+                    <Textarea rows={6} placeholder='Job Description' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

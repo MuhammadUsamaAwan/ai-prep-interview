@@ -22,8 +22,8 @@ export function Hero() {
             </div>
             <div className='mt-5 max-w-3xl'>
               <h2 className='text-xl text-muted-foreground'>
-                Unlock your full potential with our cutting-edge AI-powered mock interviews. Get real-time feedback,
-                tailored practice, and boost your confidence to land your dream job.
+                Unlock your full potential with our cutting-edge AI-powered mock interviews. Get feedback, tailored
+                practice, and boost your confidence to land your dream job.
               </h2>
             </div>
             <div className='mt-8 flex justify-center gap-3'>
