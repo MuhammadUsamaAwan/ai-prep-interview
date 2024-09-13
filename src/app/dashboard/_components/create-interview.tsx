@@ -57,7 +57,7 @@ export function CreateInterview() {
               name='jobTitle'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Job Title*</FormLabel>
+                  <FormLabel>Job Title</FormLabel>
                   <FormControl>
                     <Input placeholder='Job Title' {...field} />
                   </FormControl>
@@ -70,7 +70,7 @@ export function CreateInterview() {
               name='jobExperience'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Job Experience*</FormLabel>
+                  <FormLabel>Job Experience</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Job Experience'
@@ -89,7 +89,7 @@ export function CreateInterview() {
               name='jobDescription'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Job Description*</FormLabel>
+                  <FormLabel>Job Description</FormLabel>
                   <FormControl>
                     <Textarea placeholder='Job Description' {...field} />
                   </FormControl>

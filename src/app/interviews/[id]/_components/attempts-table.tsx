@@ -52,7 +52,7 @@ export function AttemptsTable({ interviewId }: AttemptsTableProps) {
   }
 
   return (
-    <div className='overflow-x-auto'>
+    <div className='overflow-x-auto rounded-xl border'>
       <Table>
         <TableHeader>
           <TableRow>
