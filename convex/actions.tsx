@@ -9,8 +9,8 @@ import { openai } from './lib';
 const responseSchema = z.object({
   result: z.array(
     z.object({
-      question: z.string().describe('The question in markdown format'),
-      answer: z.string().describe('The answer to the question in markdown format'),
+      question: z.string().describe('The question'),
+      answer: z.string().describe('The answer to the question'),
     })
   ),
 });

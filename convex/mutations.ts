@@ -60,7 +60,7 @@ export const createInterviewAttempt = mutation({
     const interviewAttempt = await ctx.db.insert('interviewAttempts', {
       interviewId: args.interviewId,
       userId,
-      currentQuestionIndex: -1,
+      currentQuestionIndex: 0,
     });
     await ctx.db.patch(args.interviewId, { attemptCount: interview.attemptCount + 1 });
     return interviewAttempt;
@@ -75,6 +75,7 @@ export const deleteInterview = mutation({
     const interview = await ctx.db
       .query('interviews')
       .withIndex('by_id', q => q.eq('_id', args.id as Id<'interviews'>))
+      .filter(q => q.eq(q.field('userId'), userId))
       .first();
     if (!interview) throw new ConvexError('Interview not found');
     const [attempts, questions, answers] = await Promise.all([
@@ -96,5 +97,20 @@ export const deleteInterview = mutation({
     const answerIds = answers.map(a => a._id);
     const deletePromises = [interview._id, ...attemptIds, ...questionIds, ...answerIds].map(id => ctx.db.delete(id));
     await Promise.all(deletePromises);
+  },
+});
+
+export const startInterview = mutation({
+  args: { attemptId: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError('User not authenticated');
+    const attempt = await ctx.db
+      .query('interviewAttempts')
+      .withIndex('by_id', q => q.eq('_id', args.attemptId as Id<'interviewAttempts'>))
+      .filter(q => q.eq(q.field('userId'), userId))
+      .first();
+    if (!attempt) throw new ConvexError('Attempt not found');
+    await ctx.db.patch(attempt._id, { startedAt: Date.now() });
   },
 });
