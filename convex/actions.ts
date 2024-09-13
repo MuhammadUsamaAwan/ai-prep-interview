@@ -50,7 +50,7 @@ export const generateFeedback = internalAction({
       messages: [
         {
           role: 'user',
-          content: `Give rating (0 to 10) and feeback for the question "${args.question}" based on the interviewer's response "${args.content}"`,
+          content: `Give rating (0 to 10) and a short feeback for interviewee for the question "${args.question}" based on the response "${args.content}"`,
         },
       ],
       response_format: zodResponseFormat(generateFeedbackSchema, 'generateFeedbackSchema'),

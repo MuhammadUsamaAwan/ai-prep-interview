@@ -78,3 +78,31 @@ export const interviewAttemptsByInterview = query({
     return attempts;
   },
 });
+
+export const attemptFeedback = query({
+  args: { id: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError('User not authenticated');
+    const attempt = await ctx.db
+      .query('interviewAttempts')
+      .withIndex('by_id', q => q.eq('_id', args.id as Id<'interviewAttempts'>))
+      .filter(q => q.eq(q.field('userId'), userId))
+      .first();
+    if (!attempt) throw new ConvexError('Attempt not found');
+    const interview = await ctx.db.get(attempt.interviewId);
+    if (!interview) throw new ConvexError('Interview not found');
+    const questions = await ctx.db
+      .query('questions')
+      .withIndex('by_interview', q => q.eq('interviewId', interview._id))
+      .collect();
+    const answerPromises = questions.map(async question =>
+      ctx.db
+        .query('answers')
+        .withIndex('by_question_attempt', q => q.eq('questionId', question._id).eq('interviewAttemptId', attempt._id))
+        .first()
+    );
+    const answers = await Promise.all(answerPromises);
+    return { interview, questions, answers };
+  },
+});

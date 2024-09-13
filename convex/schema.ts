@@ -31,7 +31,9 @@ const schema = defineSchema({
     content: v.string(),
     feedback: v.string(),
     rating: v.number(),
-  }).index('by_interview', ['interviewId']),
+  })
+    .index('by_interview', ['interviewId'])
+    .index('by_question_attempt', ['questionId', 'interviewAttemptId']),
 });
 
 export default schema;
