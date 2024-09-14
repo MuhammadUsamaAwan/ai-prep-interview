@@ -106,3 +106,35 @@ export const attemptFeedback = query({
     return { interview, questions, answers };
   },
 });
+
+export const attemptsChart = query({
+  args: { interviewId: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError('User not authenticated');
+    const questions = await ctx.db
+      .query('questions')
+      .withIndex('by_interview', q => q.eq('interviewId', args.interviewId as Id<'interviews'>))
+      .collect();
+    const answers = await ctx.db
+      .query('answers')
+      .withIndex('by_interview', q => q.eq('interviewId', args.interviewId as Id<'interviews'>))
+      .collect();
+    const chartData = questions.map((question, index) => {
+      const ratings = answers
+        .filter(answer => answer.questionId === question._id)
+        .reduce(
+          (acc, answer, index) => {
+            acc[`attempt${index + 1}`] = answer.rating;
+            return acc;
+          },
+          {} as Record<string, number>
+        );
+      return {
+        questionNumber: `Question ${index + 1}`,
+        ...ratings,
+      };
+    });
+    return chartData;
+  },
+});

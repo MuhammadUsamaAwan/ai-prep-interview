@@ -1,3 +1,4 @@
+import { AttemptsChart } from './_components/attempts-chart';
 import { AttemptsTable } from './_components/attempts-table';
 import { InterviewDetails } from './_components/interview-details';
 
@@ -12,6 +13,7 @@ export default function InterviewPage({ params: { id } }: InterviewPageProps) {
     <div className='container space-y-4 pb-10 pt-20'>
       <InterviewDetails id={id} />
       <AttemptsTable interviewId={id} />
+      <AttemptsChart interviewId={id} />
     </div>
   );
 }
