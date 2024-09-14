@@ -27,60 +27,62 @@ export function AttemptsTable({ interviewId }: AttemptsTableProps) {
 
   if (attempts.length === 0) {
     return (
-      <div className='space-y-4 pt-20'>
-        <div className='text-center text-muted-foreground'>No attempts found</div>
-        <div className='flex justify-center'>
-          <Button
-            isLoading={isPending}
-            onClick={async () => {
-              startTransition(async () => {
-                try {
-                  // @ts-expect-error interviewId is the Id
-                  const attemptId = await createInterviewAttempt({ interviewId });
-                  router.push(`/attempts/${attemptId}`);
-                } catch (error) {
-                  showErrorMessage(error);
-                }
-              });
-            }}
-          >
-            Attempt Interview
-          </Button>
-        </div>
+      <div>
+        <h2 className='mb-4 text-2xl font-bold'>Interview Attempts</h2>
+        <div className='mb-2 text-muted-foreground'>No attempts found</div>
+        <Button
+          isLoading={isPending}
+          onClick={async () => {
+            startTransition(async () => {
+              try {
+                // @ts-expect-error interviewId is the Id
+                const attemptId = await createInterviewAttempt({ interviewId });
+                router.push(`/attempts/${attemptId}`);
+              } catch (error) {
+                showErrorMessage(error);
+              }
+            });
+          }}
+        >
+          Attempt Interview
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className='overflow-x-auto rounded-xl border'>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className='text-center'>Attempt #</TableHead>
-            <TableHead className='text-center'>Started At</TableHead>
-            <TableHead className='text-center'>Ended At</TableHead>
-            <TableHead className='text-center'></TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {attempts.map((a, i) => (
-            <TableRow key={a._id}>
-              <TableCell className='text-center'>{i + 1}</TableCell>
-              <TableCell className='text-center'>
-                {a.startedAt ? format(new Date(a.startedAt), 'MMM dd yyyy, HH:mm aa') : '-'}
-              </TableCell>
-              <TableCell className='text-center'>
-                {a.endedAt ? format(new Date(a.endedAt), 'MMM dd yyyy, HH:mm aa') : '-'}
-              </TableCell>
-              <TableCell className='text-center'>
-                <Link className='underline underline-offset-2' href={`/attempts/${a._id}`}>
-                  {a.endedAt ? 'View Details' : a.startedAt ? 'Continue' : 'Start Now'}
-                </Link>
-              </TableCell>
+    <div>
+      <h2 className='mb-4 text-2xl font-bold'>Interview Attempts</h2>
+      <div className='overflow-x-auto rounded-xl border'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className='text-center'>Attempt #</TableHead>
+              <TableHead className='text-center'>Started At</TableHead>
+              <TableHead className='text-center'>Ended At</TableHead>
+              <TableHead className='text-center'></TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {attempts.map((a, i) => (
+              <TableRow key={a._id}>
+                <TableCell className='text-center'>{i + 1}</TableCell>
+                <TableCell className='text-center'>
+                  {a.startedAt ? format(new Date(a.startedAt), 'MMM dd yyyy, HH:mm aa') : '-'}
+                </TableCell>
+                <TableCell className='text-center'>
+                  {a.endedAt ? format(new Date(a.endedAt), 'MMM dd yyyy, HH:mm aa') : '-'}
+                </TableCell>
+                <TableCell className='text-center'>
+                  <Link className='underline underline-offset-2' href={`/attempts/${a._id}`}>
+                    {a.endedAt ? 'View Details' : a.startedAt ? 'Continue' : 'Start Now'}
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

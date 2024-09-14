@@ -18,9 +18,13 @@ export function InterviewDetails({ id }: InterviewDetailsProps) {
 
   return (
     <div>
-      <h1 className='text-2xl font-bold'>{interview?.jobTitle}</h1>
-      <div className='text-muted-foreground'>{interview?.jobExperience} years experience</div>
-      <div className='text-muted-foreground'>{interview?.jobDescription}</div>
+      <h1 className='mb-6 text-2xl font-bold'>{interview?.jobTitle}</h1>
+      <div className='mb-2'>
+        <span className='font-bold'>Job experience:</span> {interview?.jobExperience} years
+      </div>
+      <div>
+        <span className='font-bold'>Job Description:</span> {interview?.jobDescription}
+      </div>
     </div>
   );
 }
