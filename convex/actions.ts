@@ -24,7 +24,11 @@ export const generateInterviewQuestions = internalAction({
       messages: [
         {
           role: 'user',
-          content: `Based on the job title "${args.jobTitle}", experience of ${args.jobExperience} years and the job description "${args.jobDescription}", generate a list of questions and answers that could be asked to an interviewee`,
+          content: `Generate a list of interview questions and their ideal answers for a ${args.jobTitle} position with ${args.jobExperience} years of experience. The job description is: "${args.jobDescription}".
+          For each question:
+          1. Ensure it's relevant to the job description and experience level.
+          2. Include a mix of technical and behavioral questions.
+          3. Provide a detailed ideal answer that demonstrates the expected knowledge or skills.`,
         },
       ],
       response_format: zodResponseFormat(generateInterviewQuestionsSchema, 'generateInterviewQuestionsSchema'),
@@ -50,7 +54,15 @@ export const generateFeedback = internalAction({
       messages: [
         {
           role: 'user',
-          content: `Give rating (0 to 10) and a short feeback for interviewee for the question "${args.question}" based on the response "${args.content}"`,
+          content: `Evaluate the interviewee's response to the following question:
+          Question: "${args.question}"
+          Response: "${args.content}"
+          Provide a detailed assessment including:
+          1. A numerical rating from 0 to 10, where 0 is completely incorrect or irrelevant, and 10 is an excellent, comprehensive answer.
+          2. A brief explanation (2-3 sentences) justifying the rating.
+          3. Specific strengths in the response.
+          4. Areas for improvement or additional points the interviewee could have mentioned.
+          5. A concise suggestion for how the interviewee could improve their answer.`,
         },
       ],
       response_format: zodResponseFormat(generateFeedbackSchema, 'generateFeedbackSchema'),
