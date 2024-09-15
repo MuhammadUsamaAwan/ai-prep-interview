@@ -98,7 +98,7 @@ export function Interview({ id }: InterviewProps) {
     <div className='flex flex-col items-start gap-6 sm:flex-row'>
       <div className='w-full flex-1'>
         <div className='relative mb-6 h-56 sm:h-96'>
-          <Webcam className='size-full rounded-xl border' onUserMediaError={() => setMediaLoaded(false)} audio />
+          <Webcam className='size-full rounded-xl border' onUserMediaError={() => setMediaLoaded(false)} />
           {!mediaLoaded && (
             <span className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-lg font-semibold'>
               Camera Failed

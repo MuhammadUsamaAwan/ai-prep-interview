@@ -31,7 +31,7 @@ export function StartInterview({ id }: StartInterviewProps) {
       <h1 className='mb-4 text-2xl font-bold'>Get Ready for Your Interview</h1>
       <div className='flex flex-col items-start gap-6 sm:flex-row'>
         <div className='relative h-56 w-full flex-1 sm:h-96'>
-          <Webcam className='size-full rounded-xl border' onUserMediaError={() => setMediaLoaded(false)} audio />
+          <Webcam className='size-full rounded-xl border' onUserMediaError={() => setMediaLoaded(false)} />
           {!mediaLoaded && (
             <span className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-lg font-semibold'>
               Camera Failed
