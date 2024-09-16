@@ -15,15 +15,15 @@ export function Hero() {
       <div className='relative z-10'>
         <div className='container'>
           <div className='mx-auto max-w-2xl text-center'>
-            <div className='mx-auto mt-5 max-w-xl'>
+            <div className='mx-auto mt-5 max-w-2xl'>
               <h1 className='scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl'>
-                Elevate Your Interview Skills using AI
+                Master Job Interviews with AI-Powered Mock Sessions
               </h1>
             </div>
             <div className='mt-5 max-w-3xl'>
               <h2 className='text-xl text-muted-foreground'>
-                Unlock your full potential with our cutting-edge AI-powered mock interviews. Get feedback, tailored
-                practice, and boost your confidence to land your dream job.
+                Get tailored feedback, improve your skills, track progress across multiple attempts, and boost your
+                confidence to land your dream job.
               </h2>
             </div>
             <div className='mt-8 flex justify-center gap-3'>

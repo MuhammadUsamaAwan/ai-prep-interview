@@ -39,7 +39,7 @@ export async function SiteHeader() {
             <DropdownMenuTrigger className='outline-none'>
               <Avatar className='size-7'>
                 <AvatarImage src={currentUser.image} alt='User Avatar' />
-                <AvatarFallback>{currentUser.name?.charAt(1).toUpperCase()}</AvatarFallback>
+                <AvatarFallback>{currentUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className='min-w-36'>

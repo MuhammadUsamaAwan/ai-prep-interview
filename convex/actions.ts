@@ -57,12 +57,12 @@ export const generateFeedback = internalAction({
           content: `Evaluate the interviewee's response to the following question:
           Question: "${args.question}"
           Response: "${args.content}"
-          Provide a detailed assessment including:
-          1. A numerical rating from 0 to 10, where 0 is completely incorrect or irrelevant, and 10 is an excellent, comprehensive answer.
-          2. A brief explanation (2-3 sentences) justifying the rating.
-          3. Specific strengths in the response.
-          4. Areas for improvement or additional points the interviewee could have mentioned.
-          5. A concise suggestion for how the interviewee could improve their answer.`,
+          Provide a concise assessment including:
+          1. A numerical rating from 0 to 10 (0 being incorrect/irrelevant, 10 being excellent).
+          2. A brief explanation (1-2 sentences) justifying the rating.
+          3. One key strength in the response.
+          4. One main area for improvement.
+          5. A short suggestion for improvement.`,
         },
       ],
       response_format: zodResponseFormat(generateFeedbackSchema, 'generateFeedbackSchema'),

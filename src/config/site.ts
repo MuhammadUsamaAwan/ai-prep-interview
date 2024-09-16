@@ -1,4 +1,5 @@
 export const siteConfig = {
-  name: 'AIPrepInterview',
-  description: 'AI Mock Interviews to help you prepare for your next interview.',
+  name: 'AIMockInterview',
+  description:
+    'Master job interviews with AI-powered mock sessions. Get tailored feedback, improve your skills, and track progress across multiple attempts.',
 };
