@@ -70,7 +70,7 @@ export function CreateInterview() {
               name='jobExperience'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Job Experience</FormLabel>
+                  <FormLabel>Job Experience (in years)</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Job Experience'

@@ -33,7 +33,7 @@ export function Interviews() {
   }
 
   return (
-    <div className='grid md:grid-cols-2 lg:grid-cols-3'>
+    <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
       {interviews.map(i => (
         <Card key={i._id} className='group'>
           <CardHeader>
@@ -45,7 +45,7 @@ export function Interviews() {
             </div>
             <div className='flex items-center justify-between text-sm text-muted-foreground'>
               <div>{i.jobExperience} years of experience</div>
-              <div>{format(new Date(i._creationTime), 'MMM dd yyyy, HH:mm aa')}</div>
+              <div>{format(new Date(i._creationTime), 'MMM dd yyyy, hh:mm aa')}</div>
             </div>
           </CardHeader>
           <CardContent>
