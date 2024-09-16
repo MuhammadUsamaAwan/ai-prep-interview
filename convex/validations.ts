@@ -13,7 +13,7 @@ export type InterviewQuestionsResult = z.infer<typeof generateInterviewQuestions
 
 export const generateFeedbackSchema = z.object({
   result: z.object({
-    feedback: z.string().describe('The feedback'),
+    feedback: z.string().describe('The feedback should be text not markdown'),
     rating: z.number().describe('The rating'),
   }),
 });
